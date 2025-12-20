@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import SignUpForm from "./signUpForm";
+import LoginForm from "./loginForm";
 
-function SignUp() {
+function Login() {
   return (
-    <div className="bg-[#0C1014]">
+    <div className="bg-[#0C1014] h-screen">
       <div className="bg-[#0C1014] mb-[44px] flex justify-center w-full ">
         <div className=" py-[10px] px-0">
           <div className="flex flex-col w-[350px] border border-[#363636] bg-[#0C1014] items-center pb-10">
@@ -24,12 +24,12 @@ function SignUp() {
                 }}
               ></i>
             </div>
-            <SignUpForm />
+            <LoginForm />
           </div>
-          <div className="border border-[#363636]  mt-3  text-[#A8A8A8] flex flex-col items-center py-4">
-            <p>Have an account?</p>
-            <Link to="/login" className="text-[#708DF0]">
-              Log in
+          <div className="border border-[#363636]  mt-3  text-[#A8A8A8] flex justify-center items-center gap-1 py-4">
+            <p>Don't have an account?</p>
+            <Link to="/signup" className="text-[#708DF0] font-semibold">
+              Sign up
             </Link>
           </div>
         </div>
@@ -39,4 +39,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;
