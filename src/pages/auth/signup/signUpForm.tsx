@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Buttton from "../../components/button";
-import Input from "../../components/input";
+import Buttton from "../../../components/button";
+import Input from "../../../components/input";
 import { IoLogoFacebook } from "react-icons/io";
 import { useState } from "react";
 import { z } from "zod";
@@ -26,7 +26,7 @@ function SignUpForm() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { errors, isSubmitting, isValid },
     watch,
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -36,6 +36,7 @@ function SignUpForm() {
   const passwordValue = watch("password");
   const onSubmit = (data: RegisterFormValues) => {
     console.log(data);
+    console.log(errors);
   };
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
