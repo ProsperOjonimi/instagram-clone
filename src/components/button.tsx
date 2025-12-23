@@ -1,5 +1,5 @@
-"use client";
 import { twMerge } from "tailwind-merge";
+import React from "react";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
@@ -7,12 +7,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   handleClick?: () => void;
 };
 
-export default function Buttton({
-  children,
-  className,
-  handleClick,
-  ...props
-}: ButtonProps) {
+function Button({ children, className, handleClick, ...props }: ButtonProps) {
   return (
     <button
       className={twMerge(
@@ -26,3 +21,5 @@ export default function Buttton({
     </button>
   );
 }
+
+export default React.memo(Button);

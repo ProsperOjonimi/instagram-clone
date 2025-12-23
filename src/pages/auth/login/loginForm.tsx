@@ -1,72 +1,90 @@
-import Buttton from "../../../components/button";
 import Input from "../../../components/input";
-import { useState } from "react";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import PasswordInput from "../../../components/passwordInput";
+import Button from "../../../components/button";
+import { errorTexts, languageTextLogin } from "../../../data/languageData";
 
-export const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
+function LoginForm({ language }: { language: string }) {
+  const errorLogin = errorTexts.filter((lang) => lang.value === language)[0];
+  const LoginText = languageTextLogin.filter(
+    (lang) => lang.value === language
+  )[0];
 
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+  const loginSchema = z.object({
+    email: z.string().nonempty(errorLogin.text1).email(errorLogin.text5),
 
-export type RegisterFormValues = z.infer<typeof loginSchema>;
+    password: z.string().nonempty(errorLogin.text1).min(6, errorLogin.text6),
+  });
 
-function LoginForm() {
+  type LoginFormValues = z.infer<typeof loginSchema>;
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     watch,
-  } = useForm<RegisterFormValues>({
+  } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
   });
 
   const passwordValue = watch("password");
-  const onSubmit = (data: RegisterFormValues) => {
+  const onSubmit = (data: LoginFormValues) => {
     console.log(data);
     console.log(errors);
   };
 
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
     <form
       className="flex flex-col items-center"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Input
-        placeholder="Email"
-        className="mb-2"
-        type="email"
-        id="email"
-        {...register("email")}
-      />
-      <div className="relative">
+      <div>
         <Input
-          placeholder="Password"
-          className="mb-2"
-          type={`${showPassword ? "text" : "password"}`}
-          id="password"
+          placeholder=" "
+          classText={`mb-1 text-[12px] pb-2 pt-5 ${
+            errors.email && "border border-red-500"
+          }`}
+          type="email"
+          id="email"
+          labelText={LoginText.text1}
+          {...register("email")}
+        />
+        <div>
+          {errors.email && (
+            <p className="text-red-500 text-[12px] mb-3">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+      </div>
+      <div>
+        <PasswordInput
+          placeholder=" "
+          classText={`mb-1 text-[12px] pb-2 pt-5 ${
+            errors.password && "border border-red-500"
+          }`}
+          passwordValue={passwordValue}
+          register={register}
+          labelText={LoginText.text2}
           {...register("password")}
         />
-
-        {passwordValue && (
-          <Buttton
-            onClick={() => setShowPassword((x: boolean) => !x)}
-            className="absolute w-[54px]  h-[25px] bg-[#25292E] top-[6px] right-2  rounded-sm
-             ring-2 ring-white "
-          >
-            {showPassword ? "Hide" : "Show"}
-          </Buttton>
-        )}
+        <div>
+          {errors.password && (
+            <p className="text-red-500 text-[12px] mb-3">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="mt-4">
-        <Buttton
+        <Button
           handleClick={() => {
             console.log("Button clicked");
           }}
@@ -75,25 +93,27 @@ function LoginForm() {
           }`}
           disabled={!isValid || isSubmitting}
         >
-          <span>Log in</span>
-        </Buttton>
+          <span>{LoginText.text3}</span>
+        </Button>
       </div>
       <div className="flex items-center mt-4">
         <div className="bg-[#262626] w-[107.38px] h-[1px]"></div>
-        <p className="text-[#A8A8A8] mx-4">OR</p>
+        <p className="text-[#A8A8A8] mx-4 text-[13px] font-semibold">
+          {LoginText.text8}
+        </p>
         <div className="w-[107.38px] bg-[#262626] h-[1px]"></div>
       </div>
       <Link
         className="text-[#0095F6] flex gap-3 items-center mt-4 mb-4"
-        to="/login"
+        to="/accounts/login"
       >
-        <FaFacebook className="w-[24px] h-[24px]" /> Log in with Facebook
+        <FaFacebook className="w-[24px] h-[24px]" /> {LoginText.text4}
       </Link>
       <Link
-        className="text-[white] font-semibold hover:underline duration-300"
-        to="/login"
+        className="text-[white] font-semibold hover:underline  duration-300"
+        to="/accounts/password/reset"
       >
-        Forgot password?
+        {LoginText.text5}
       </Link>
     </form>
   );

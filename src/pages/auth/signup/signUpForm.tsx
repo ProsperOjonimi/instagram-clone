@@ -1,33 +1,40 @@
 import { Link } from "react-router-dom";
-import Buttton from "../../../components/button";
+import Button from "../../../components/button";
 import Input from "../../../components/input";
 import { IoLogoFacebook } from "react-icons/io";
-import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import PasswordInput from "../../../components/passwordInput";
+import { errorTexts, languageTextSignup } from "../../../data/languageData";
 
-export const registerSchema = z.object({
-  fullName: z.string().min(2, "Full name must be at least 2 characters"),
+function SignUpForm({ language }: { language: string }) {
+  const errorSignUp = errorTexts.filter((lang) => lang.value === language)[0];
+  const signupText = languageTextSignup.filter(
+    (lang) => lang.value === language
+  )[0];
 
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters")
-    .regex(/^[a-zA-Z0-9_]+$/, "Only letters, numbers, and underscores"),
+  const registerSchema = z.object({
+    fullName: z.string().nonempty(errorSignUp.text1).min(2, errorSignUp.text2),
 
-  email: z.string().email("Invalid email address"),
+    username: z
+      .string()
+      .nonempty(errorSignUp.text1)
+      .min(3, errorSignUp.text3)
+      .regex(/^[a-zA-Z0-9_]+$/, errorSignUp.text4),
 
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+    email: z.string().nonempty(errorSignUp.text1).email(errorSignUp.text5),
 
-export type RegisterFormValues = z.infer<typeof registerSchema>;
+    password: z.string().nonempty(errorSignUp.text1).min(6, errorSignUp.text6),
+  });
+  type RegisterFormValues = z.infer<typeof registerSchema>;
 
-function SignUpForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
     watch,
+
+    formState: { errors, isSubmitting, isValid },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
@@ -39,17 +46,16 @@ function SignUpForm() {
     console.log(errors);
   };
 
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
     <form
       className="flex flex-col items-center"
       onSubmit={handleSubmit(onSubmit)}
     >
       <h4 className="w-[268px] text-[#A8A8A8] text-center font-semibold">
-        Sign up to see photos and videos of your friends
+        {signupText.text1}
       </h4>
       <div className="my-3">
-        <Buttton
+        <Button
           handleClick={() => {
             console.log("Button clicked");
           }}
@@ -58,90 +64,125 @@ function SignUpForm() {
           <span>
             <IoLogoFacebook className="w-[24px] h-[24px]" />
           </span>{" "}
-          <span>Log in with Facebook</span>
-        </Buttton>
+          <span>{signupText.text2}</span>
+        </Button>
       </div>
       <div className="flex items-center mb-4">
         <div className="bg-[#262626] w-[107.38px] h-[1px]"></div>
-        <p className="text-[#A8A8A8] mx-4">OR</p>
+        <p className="text-[#A8A8A8] mx-4">{signupText.text17}</p>
         <div className="w-[107.38px] bg-[#262626] h-[1px]"></div>
       </div>
-      <Input
-        placeholder="Email"
-        className="mb-2"
-        type="email"
-        id="email"
-        {...register("email")}
-      />
-      <div className="relative">
+      <div>
         <Input
-          placeholder="Password"
-          className="mb-2"
-          type={`${showPassword ? "text" : "password"}`}
-          id="password"
+          placeholder=" "
+          classText={`mb-1 text-[12px] pb-2 pt-5 ${
+            errors.email && "border border-red-500"
+          }`}
+          type="email"
+          id="email"
+          labelText={signupText.text3}
+          {...register("email")}
+        />
+        <div>
+          {errors.email && (
+            <p className="text-red-500 text-[12px] mb-3">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div>
+        <PasswordInput
+          classText={`mb-1 text-[12px] pb-2 pt-5 ${
+            errors.password && "border border-red-500"
+          }`}
+          passwordValue={passwordValue}
+          register={register}
+          labelText={signupText.text4}
           {...register("password")}
         />
-
-        {passwordValue && (
-          <Buttton
-            onClick={() => setShowPassword((x: boolean) => !x)}
-            className="absolute w-[54px]  h-[25px] bg-[#25292E] top-[6px] right-2  rounded-sm
-             ring-2 ring-white "
-          >
-            {showPassword ? "Hide" : "Show"}
-          </Buttton>
-        )}
+        <div>
+          {errors.password && (
+            <p className="text-red-500 text-[12px] mb-3">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
       </div>
-      <Input
-        placeholder="Full Name"
-        className="mb-2"
-        type="text"
-        id="fullName"
-        {...register("fullName")}
-      />
-      <Input
-        placeholder="Username"
-        className="mb-2"
-        type="text"
-        id="userName"
-        {...register("username")}
-      />
-      <div className="w-[269px] mt-3 flex flex-col gap-3">
+      <div>
+        <Input
+          placeholder=" "
+          classText={`mb-1 text-[12px] pb-2 pt-5 ${
+            errors.fullName && "border border-red-500"
+          }`}
+          type="text"
+          id="fullName"
+          labelText={signupText.text5}
+          {...register("fullName")}
+        />
+        <div>
+          {errors.fullName && (
+            <p className="text-red-500 text-[12px] mb-3">
+              {errors.fullName.message}
+            </p>
+          )}
+        </div>
+      </div>
+      <div>
+        <Input
+          placeholder=" "
+          classText={`mb-1 text-[12px] pb-2 pt-5 ${
+            errors.username && "border border-red-500"
+          }`}
+          type="text"
+          id="username"
+          labelText={signupText.text6}
+          {...register("username")}
+        />
+        <div>
+          {errors.username && (
+            <p className="text-red-500 text-[12px] mb-3">
+              {errors.username.message}
+            </p>
+          )}
+        </div>
+      </div>
+      <div className="w-[269px] mt-3 flex flex-col gap-3 text-center">
         <p className="text-[#A8A8A8] text-[12px]">
-          People who use our service may have uploaded your contact information
-          to Instagram.{" "}
+          {signupText.text7}{" "}
           <Link to="/signup" className="text-[#708DF0]">
-            Learn More
+            {signupText.text8}
           </Link>
         </p>
-        <p className="text-[#A8A8A8] text-[12px]">
-          By signing up, you agree to our{" "}
+        <p className="text-[#A8A8A8] text-[12px] text-center">
+          {signupText.text9}{" "}
           <Link to="/signup" className="text-[#708DF0]">
-            Terms
+            {signupText.text10}
           </Link>{" "}
           ,{" "}
           <Link to="/signup" className="text-[#708DF0]">
-            Privacy Policy
+            {signupText.text11}
           </Link>{" "}
-          and{" "}
+          {signupText.text12}{" "}
           <Link to="/signup" className="text-[#708DF0]">
-            Cookies Policy
+            {signupText.text13}
           </Link>{" "}
           .
         </p>
       </div>
       <div className="mt-4">
-        <Buttton
+        <Button
           handleClick={() => {
             console.log("Button clicked");
           }}
           className={`flex items-center justify-center gap-2 ${
             !isValid || isSubmitting ? "cursor-not-allowed" : ""
-          }`}
+          } `}
           disabled={!isValid || isSubmitting}
         >
-          <span>Sign Up</span>
-        </Buttton>
+          <span>{signupText.text14}</span>
+        </Button>
       </div>
     </form>
   );
