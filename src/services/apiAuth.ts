@@ -63,12 +63,15 @@ export async function getCurrentUser() {
   return data?.user;
 }
 
-export async function resetPassword({ email }) {
-  const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+export async function resetPassword({ email }: { email: string }) {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: "http://localhost:5173/accounts/password/new",
+  });
 
-  if (error) throw new Error(error.message);
-
-  console.log(data);
+  if (error) {
+    console.error(error.message);
+    throw new Error(error.message);
+  }
 
   return data;
 }

@@ -9,6 +9,8 @@ import {
   errorTexts,
   languageTextForgotPassword,
 } from "../../../data/languageData";
+import Spinner from "../../../components/Spinner";
+import useResetPassword from "../../../hooks/useResetPassword";
 
 function ForgotPassword({ language }: { language: string }) {
   const errorForgotPassword = errorTexts.filter(
@@ -34,10 +36,16 @@ function ForgotPassword({ language }: { language: string }) {
     mode: "onChange",
   });
 
+  // RESET PASSWORD BY SENDING RESET LINK TO USER EMAIL
+
+  const { reset, isPending } = useResetPassword();
+  //
   const onSubmit = (data: ForgotPasswordFormValues) => {
     console.log(data);
-    console.log(errors);
+    const { email } = data;
+    reset({ email });
   };
+
   return (
     <div className="flex flex-col items-center">
       <div className="mt-4">
@@ -111,7 +119,7 @@ function ForgotPassword({ language }: { language: string }) {
             }`}
             disabled={!isValid || isSubmitting}
           >
-            <span>{forgotPassworText.text5}</span>
+            {isPending ? <Spinner /> : <span>{forgotPassworText.text5}</span>}
           </Button>
           <p className="text-center mt-2">
             {" "}
