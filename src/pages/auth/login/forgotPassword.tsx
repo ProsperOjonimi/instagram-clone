@@ -132,7 +132,7 @@ function ForgotPassword({ language }: { language: string }) {
         </div>
         <Link
           className="text-[white] font-semibold flex gap-3 items-center mt-4 mb-10 text-[14px] hover:underline"
-          to="/accounts/login"
+          to="/accounts/emailsignup"
         >
           {forgotPassworText.text7}
         </Link>

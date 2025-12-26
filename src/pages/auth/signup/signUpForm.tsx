@@ -10,6 +10,9 @@ import { errorTexts, languageTextSignup } from "../../../data/languageData";
 import { useSignup } from "../../../hooks/useSignup";
 import Spinner from "../../../components/Spinner";
 
+export const PASSWORD_REGEX =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!$@%])[A-Za-z\d!$@%]{6,}$/;
+
 function SignUpForm({ language }: { language: string }) {
   const errorSignUp = errorTexts.filter((lang) => lang.value === language)[0];
   const { signup, isPending } = useSignup();
@@ -28,7 +31,11 @@ function SignUpForm({ language }: { language: string }) {
 
     email: z.string().nonempty(errorSignUp.text1).email(errorSignUp.text5),
 
-    password: z.string().nonempty(errorSignUp.text1).min(6, errorSignUp.text6),
+    password: z
+      .string()
+      .nonempty(errorSignUp.text1)
+      .min(6, errorSignUp.text6)
+      .regex(PASSWORD_REGEX, errorSignUp.text7),
   });
   type RegisterFormValues = z.infer<typeof registerSchema>;
 
@@ -102,6 +109,7 @@ function SignUpForm({ language }: { language: string }) {
           classText={`mb-1 text-[12px] pb-2 pt-5 ${
             errors.password && "border border-red-500"
           }`}
+          idValue="password"
           passwordValue={passwordValue}
           register={register}
           labelText={signupText.text4}
@@ -109,7 +117,7 @@ function SignUpForm({ language }: { language: string }) {
         />
         <div>
           {errors.password && (
-            <p className="text-red-500 text-[12px] mb-3">
+            <p className="text-red-500 text-[12px] mb-3 max-w-[259px]">
               {errors.password.message}
             </p>
           )}

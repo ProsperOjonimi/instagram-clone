@@ -13,7 +13,7 @@ import Spinner from "../../../components/Spinner";
 
 function LoginForm({ language }: { language: string }) {
   const errorLogin = errorTexts.filter((lang) => lang.value === language)[0];
-  const LoginText = languageTextLogin.filter(
+  const loginText = languageTextLogin.filter(
     (lang) => lang.value === language
   )[0];
 
@@ -59,7 +59,7 @@ function LoginForm({ language }: { language: string }) {
           }`}
           type="email"
           id="email"
-          labelText={LoginText.text1}
+          labelText={loginText.text1}
           {...register("email")}
         />
         <div>
@@ -78,7 +78,8 @@ function LoginForm({ language }: { language: string }) {
           }`}
           passwordValue={passwordValue}
           register={register}
-          labelText={LoginText.text2}
+          idValue="password"
+          labelText={loginText.text2}
           {...register("password")}
         />
         <div>
@@ -97,13 +98,13 @@ function LoginForm({ language }: { language: string }) {
           }`}
           disabled={!isValid || isSubmitting}
         >
-          {isPending ? <Spinner /> : <span>{LoginText.text3}</span>}
+          {isPending ? <Spinner /> : <span>{loginText.text3}</span>}
         </Button>
       </div>
       <div className="flex items-center mt-4">
         <div className="bg-[#262626] w-[107.38px] h-[1px]"></div>
         <p className="text-[#A8A8A8] mx-4 text-[13px] font-semibold">
-          {LoginText.text8}
+          {loginText.text8}
         </p>
         <div className="w-[107.38px] bg-[#262626] h-[1px]"></div>
       </div>
@@ -112,18 +113,18 @@ function LoginForm({ language }: { language: string }) {
         to="/accounts/login"
         aria-disabled={true}
       >
-        <FaFacebook className="w-[24px] h-[24px]" /> {LoginText.text4}
+        <FaFacebook className="w-[24px] h-[24px]" /> {loginText.text4}
       </Link>
       {isError && (
         <div className="px-[40px] text-center pb-[10px]">
-          <span className="text-[#D8281A] text-[14px]">{LoginText.text9}</span>
+          <span className="text-[#D8281A] text-[14px]">{loginText.text9}</span>
         </div>
       )}
       <Link
         className="text-[white] font-semibold hover:underline  duration-300"
         to="/accounts/password/reset"
       >
-        {LoginText.text5}
+        {loginText.text5}
       </Link>
     </form>
   );

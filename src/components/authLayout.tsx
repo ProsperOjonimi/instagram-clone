@@ -22,6 +22,10 @@ function AuthLayout() {
   const forgotPassworText = languageTextForgotPassword.filter(
     (lang) => lang.value === language
   )[0];
+  const pathName = useLocation().pathname;
+  const isInvolvePassword =
+    pathName === "/accounts/password/reset" ||
+    pathName === "/accounts/password/new";
 
   const footerData = [
     {
@@ -82,15 +86,16 @@ function AuthLayout() {
     },
   ];
 
-  const pathName = useLocation().pathname;
   console.log(pathName);
   return (
     <div
       className={`bg-[#0C1014] pb-5 ${
         pathName === "/accounts/login" && "h-screen"
-      } ${pathName === "/accounts/password/reset" && "h-screen"}`}
+      } ${pathName === "/accounts/password/reset" && "h-screen"} ${
+        pathName === "/accounts/password/new" && "h-screen"
+      }`}
     >
-      {pathName === "/accounts/password/reset" && (
+      {isInvolvePassword && (
         <div className="fixed w-full bg-[#0C1014] h-[60px] border-b border-[#363636] flex justify-center items-center">
           <div className="flex w-[975px] px-[20px]">
             <div className="w-full">
@@ -111,7 +116,7 @@ function AuthLayout() {
                 ></path>
               </svg>
             </div>
-            <div className="w-full flex justify-end">
+            <div className="w-full flex justify-end ">
               <div className="flex gap-5 items-center">
                 <Link
                   to="/accounts/login"
@@ -131,11 +136,7 @@ function AuthLayout() {
         </div>
       )}
       <div className="bg-[#0C1014]  flex justify-center w-full ">
-        <div
-          className={`py-[10px] px-0 ${
-            pathName === "/accounts/password/reset" && "pt-32 "
-          }`}
-        >
+        <div className={`py-[10px] px-0 ${isInvolvePassword && "pt-32 "}`}>
           <div
             className={`flex flex-col w-[350px] border border-[#363636] bg-[#0C1014] items-center ${
               pathName !== "/accounts/password/reset" && "pb-10"
