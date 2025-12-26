@@ -7,9 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import PasswordInput from "../../../components/passwordInput";
 import { errorTexts, languageTextSignup } from "../../../data/languageData";
+import { useSignup } from "../../../hooks/useSignup";
+import Spinner from "../../../components/Spinner";
 
 function SignUpForm({ language }: { language: string }) {
   const errorSignUp = errorTexts.filter((lang) => lang.value === language)[0];
+  const { signup, isPending } = useSignup();
   const signupText = languageTextSignup.filter(
     (lang) => lang.value === language
   )[0];
@@ -42,8 +45,9 @@ function SignUpForm({ language }: { language: string }) {
 
   const passwordValue = watch("password");
   const onSubmit = (data: RegisterFormValues) => {
-    console.log(data);
-    console.log(errors);
+    const { fullName, username, email, password } = data;
+
+    signup({ fullName, username, email, password });
   };
 
   return (
@@ -59,7 +63,8 @@ function SignUpForm({ language }: { language: string }) {
           handleClick={() => {
             console.log("Button clicked");
           }}
-          className="flex items-center justify-center gap-2"
+          className="flex items-center justify-center gap-2 cursor-not-allowed"
+          disabled={true}
         >
           <span>
             <IoLogoFacebook className="w-[24px] h-[24px]" />
@@ -181,7 +186,7 @@ function SignUpForm({ language }: { language: string }) {
           } `}
           disabled={!isValid || isSubmitting}
         >
-          <span>{signupText.text14}</span>
+          {isPending ? <Spinner /> : <span>{signupText.text14}</span>}
         </Button>
       </div>
     </form>

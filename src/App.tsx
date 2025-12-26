@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import AppLayout from "./components/appLayout";
@@ -8,14 +8,25 @@ import SignUpForm from "./pages/auth/signup/signUpForm";
 import LoginForm from "./pages/auth/login/loginForm";
 import ForgotPassword from "./pages/auth/login/forgotPassword";
 import { useLanguage } from "./context/languageContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import LoadingScreen from "./components/LoadingScreen";
 
 function App() {
   const { language } = useLanguage();
   return (
     <BrowserRouter>
+      <ReactQueryDevtools />
       <Routes>
-        <Route path="/" element={<AppLayout />}>
-          <Route index element={<Home />} />
+        <Route
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Navigate replace to="/home" />} />
+          <Route path="/home" element={<Home />} />
         </Route>
 
         <Route element={<AuthLayout />}>

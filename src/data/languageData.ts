@@ -139,6 +139,8 @@ export const languageTextLogin = [
     text6: "Don't have an account?",
     text7: "Sign up",
     text8: "OR",
+    text9:
+      "Sorry, your password was incorrect. Please double-check your password.",
   },
   {
     value: "fr",
@@ -150,6 +152,8 @@ export const languageTextLogin = [
     text6: "Vous n'avez pas de compte ?",
     text7: "S'inscrire",
     text8: "OU",
+    text9:
+      "Désolé, votre mot de passe est incorrect. Veuillez vérifier votre mot de passe.",
   },
   {
     value: "es",
@@ -161,6 +165,8 @@ export const languageTextLogin = [
     text6: "¿No tienes una cuenta?",
     text7: "Regístrate",
     text8: "O",
+    text9:
+      "Lo sentimos, tu contraseña es incorrecta. Por favor, verifica tu contraseña.",
   },
 ];
 

@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import PasswordInput from "../../../components/passwordInput";
 import Button from "../../../components/button";
 import { errorTexts, languageTextLogin } from "../../../data/languageData";
+import { useLogin } from "../../../hooks/useLogin";
+import Spinner from "../../../components/Spinner";
 
 function LoginForm({ language }: { language: string }) {
   const errorLogin = errorTexts.filter((lang) => lang.value === language)[0];
@@ -23,6 +25,8 @@ function LoginForm({ language }: { language: string }) {
 
   type LoginFormValues = z.infer<typeof loginSchema>;
 
+  const { login, isPending, isError } = useLogin();
+
   const {
     register,
     handleSubmit,
@@ -35,8 +39,11 @@ function LoginForm({ language }: { language: string }) {
 
   const passwordValue = watch("password");
   const onSubmit = (data: LoginFormValues) => {
-    console.log(data);
-    console.log(errors);
+    const { email, password } = data;
+
+    if (!email || !password) return;
+
+    login({ email, password });
   };
 
   return (
@@ -85,15 +92,12 @@ function LoginForm({ language }: { language: string }) {
 
       <div className="mt-4">
         <Button
-          handleClick={() => {
-            console.log("Button clicked");
-          }}
           className={`flex items-center justify-center gap-2 ${
             !isValid || isSubmitting ? "cursor-not-allowed" : ""
           }`}
           disabled={!isValid || isSubmitting}
         >
-          <span>{LoginText.text3}</span>
+          {isPending ? <Spinner /> : <span>{LoginText.text3}</span>}
         </Button>
       </div>
       <div className="flex items-center mt-4">
@@ -104,11 +108,17 @@ function LoginForm({ language }: { language: string }) {
         <div className="w-[107.38px] bg-[#262626] h-[1px]"></div>
       </div>
       <Link
-        className="text-[#0095F6] flex gap-3 items-center mt-4 mb-4"
+        className="text-[#0095F6] flex gap-3 items-center mt-4 mb-4 pointer-events-none cursor-not-allowed"
         to="/accounts/login"
+        aria-disabled={true}
       >
         <FaFacebook className="w-[24px] h-[24px]" /> {LoginText.text4}
       </Link>
+      {isError && (
+        <div className="px-[40px] text-center pb-[10px]">
+          <span className="text-[#D8281A] text-[14px]">{LoginText.text9}</span>
+        </div>
+      )}
       <Link
         className="text-[white] font-semibold hover:underline  duration-300"
         to="/accounts/password/reset"

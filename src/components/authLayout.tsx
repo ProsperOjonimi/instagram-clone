@@ -88,7 +88,7 @@ function AuthLayout() {
     <div
       className={`bg-[#0C1014] pb-5 ${
         pathName === "/accounts/login" && "h-screen"
-      } ${pathName === "/accounts/password/reset" && "h-full"}`}
+      } ${pathName === "/accounts/password/reset" && "h-screen"}`}
     >
       {pathName === "/accounts/password/reset" && (
         <div className="fixed w-full bg-[#0C1014] h-[60px] border-b border-[#363636] flex justify-center items-center">
@@ -130,7 +130,7 @@ function AuthLayout() {
           </div>
         </div>
       )}
-      <div className="bg-[#0C1014] mb-[44px] flex justify-center w-full ">
+      <div className="bg-[#0C1014]  flex justify-center w-full ">
         <div
           className={`py-[10px] px-0 ${
             pathName === "/accounts/password/reset" && "pt-32 "
@@ -197,7 +197,7 @@ function AuthLayout() {
           )}
         </div>
       </div>
-      <div className="flex flex-col  gap-3 bg-[#0C1014] ">
+      <div className="flex flex-col  gap-3 bg-[#0C1014] pt-[44px] ">
         <div className="flex gap-3 justify-center flex-wrap">
           {footerData.map((data) => (
             <Link
