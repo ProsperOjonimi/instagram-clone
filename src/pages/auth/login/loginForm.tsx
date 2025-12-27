@@ -8,10 +8,12 @@ import { Link } from "react-router-dom";
 import PasswordInput from "../../../components/passwordInput";
 import Button from "../../../components/button";
 import { errorTexts, languageTextLogin } from "../../../data/languageData";
+import { useLogin } from "../../../hooks/useLogin";
+import Spinner from "../../../components/Spinner";
 
 function LoginForm({ language }: { language: string }) {
   const errorLogin = errorTexts.filter((lang) => lang.value === language)[0];
-  const LoginText = languageTextLogin.filter(
+  const loginText = languageTextLogin.filter(
     (lang) => lang.value === language
   )[0];
 
@@ -22,6 +24,8 @@ function LoginForm({ language }: { language: string }) {
   });
 
   type LoginFormValues = z.infer<typeof loginSchema>;
+
+  const { login, isPending, isError } = useLogin();
 
   const {
     register,
@@ -35,8 +39,11 @@ function LoginForm({ language }: { language: string }) {
 
   const passwordValue = watch("password");
   const onSubmit = (data: LoginFormValues) => {
-    console.log(data);
-    console.log(errors);
+    const { email, password } = data;
+
+    if (!email || !password) return;
+
+    login({ email, password });
   };
 
   return (
@@ -52,7 +59,7 @@ function LoginForm({ language }: { language: string }) {
           }`}
           type="email"
           id="email"
-          labelText={LoginText.text1}
+          labelText={loginText.text1}
           {...register("email")}
         />
         <div>
@@ -71,7 +78,8 @@ function LoginForm({ language }: { language: string }) {
           }`}
           passwordValue={passwordValue}
           register={register}
-          labelText={LoginText.text2}
+          idValue="password"
+          labelText={loginText.text2}
           {...register("password")}
         />
         <div>
@@ -85,35 +93,38 @@ function LoginForm({ language }: { language: string }) {
 
       <div className="mt-4">
         <Button
-          handleClick={() => {
-            console.log("Button clicked");
-          }}
           className={`flex items-center justify-center gap-2 ${
             !isValid || isSubmitting ? "cursor-not-allowed" : ""
           }`}
           disabled={!isValid || isSubmitting}
         >
-          <span>{LoginText.text3}</span>
+          {isPending ? <Spinner /> : <span>{loginText.text3}</span>}
         </Button>
       </div>
       <div className="flex items-center mt-4">
         <div className="bg-[#262626] w-[107.38px] h-[1px]"></div>
         <p className="text-[#A8A8A8] mx-4 text-[13px] font-semibold">
-          {LoginText.text8}
+          {loginText.text8}
         </p>
         <div className="w-[107.38px] bg-[#262626] h-[1px]"></div>
       </div>
       <Link
-        className="text-[#0095F6] flex gap-3 items-center mt-4 mb-4"
+        className="text-[#0095F6] flex gap-3 items-center mt-4 mb-4 pointer-events-none cursor-not-allowed"
         to="/accounts/login"
+        aria-disabled={true}
       >
-        <FaFacebook className="w-[24px] h-[24px]" /> {LoginText.text4}
+        <FaFacebook className="w-[24px] h-[24px]" /> {loginText.text4}
       </Link>
+      {isError && (
+        <div className="px-[40px] text-center pb-[10px]">
+          <span className="text-[#D8281A] text-[14px]">{loginText.text9}</span>
+        </div>
+      )}
       <Link
         className="text-[white] font-semibold hover:underline  duration-300"
         to="/accounts/password/reset"
       >
-        {LoginText.text5}
+        {loginText.text5}
       </Link>
     </form>
   );

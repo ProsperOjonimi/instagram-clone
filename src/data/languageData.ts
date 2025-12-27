@@ -40,7 +40,11 @@ export const errorTexts = [
     text4: "Only letters, numbers, and underscores",
     text5: "Enter a valid email address.",
     text6: "Create a password at least 6 characters long.",
+    text7:
+      "Password must include letters, numbers, and a special character (!$@%)",
+    text8: "Passwords do not match",
   },
+
   {
     value: "fr",
     text1: "Ce champ est requis",
@@ -49,6 +53,9 @@ export const errorTexts = [
     text4: "Seules les lettres, chiffres et underscores sont autorisés",
     text5: "Veuillez entrer une adresse e-mail valide",
     text6: "Créez un mot de passe d'au moins 6 caractères",
+    text7:
+      "Le mot de passe doit contenir des lettres, des chiffres et un caractère spécial (!$@%)",
+    text8: "Les mots de passe ne correspondent pas",
   },
 
   {
@@ -59,6 +66,9 @@ export const errorTexts = [
     text4: "Solo letras, números y guiones bajos",
     text5: "Ingrese una dirección de correo electrónico válida",
     text6: "Crea una contraseña de al menos 6 caracteres",
+    text7:
+      "La contraseña debe incluir letras, números y un carácter especial (!$@%)",
+    text8: "Las contraseñas no coinciden",
   },
 ];
 export const languageTextSignup = [
@@ -139,6 +149,8 @@ export const languageTextLogin = [
     text6: "Don't have an account?",
     text7: "Sign up",
     text8: "OR",
+    text9:
+      "Sorry, your password was incorrect. Please double-check your password.",
   },
   {
     value: "fr",
@@ -150,6 +162,8 @@ export const languageTextLogin = [
     text6: "Vous n'avez pas de compte ?",
     text7: "S'inscrire",
     text8: "OU",
+    text9:
+      "Désolé, votre mot de passe est incorrect. Veuillez vérifier votre mot de passe.",
   },
   {
     value: "es",
@@ -161,6 +175,8 @@ export const languageTextLogin = [
     text6: "¿No tienes una cuenta?",
     text7: "Regístrate",
     text8: "O",
+    text9:
+      "Lo sentimos, tu contraseña es incorrecta. Por favor, verifica tu contraseña.",
   },
 ];
 
@@ -203,5 +219,35 @@ export const languageTextForgotPassword = [
     text7: "Crear nueva cuenta",
     text8: "O",
     text9: "Volver a iniciar sesión",
+  },
+];
+
+export const languagesTextPasswordNew = [
+  {
+    value: "en",
+    text1: "Create A Strong Password",
+    text2:
+      "Your password must be at least 6 characters and should include a combination of numbers, letters and special characters (!$@%).",
+    text3: "New password",
+    text4: "New password, again",
+    text5: "Reset Password",
+  },
+  {
+    value: "fr",
+    text1: "Créer un mot de passe sécurisé",
+    text2:
+      "Votre mot de passe doit contenir au moins 6 caractères et inclure une combinaison de lettres, de chiffres et de caractères spéciaux (!$@%).",
+    text3: "Nouveau mot de passe",
+    text4: "Nouveau mot de passe, encore",
+    text5: "Réinitialiser le mot de passe",
+  },
+  {
+    value: "es",
+    text1: "Crear una contraseña segura",
+    text2:
+      "Tu contraseña debe tener al menos 6 caracteres e incluir una combinación de letras, números y caracteres especiales (!$@%).",
+    text3: "Nueva contraseña",
+    text4: "Nueva contraseña, de nuevo",
+    text5: "Restablecer contraseña",
   },
 ];

@@ -7,9 +7,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import PasswordInput from "../../../components/passwordInput";
 import { errorTexts, languageTextSignup } from "../../../data/languageData";
+import { useSignup } from "../../../hooks/useSignup";
+import Spinner from "../../../components/Spinner";
+
+export const PASSWORD_REGEX =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!$@%])[A-Za-z\d!$@%]{6,}$/;
 
 function SignUpForm({ language }: { language: string }) {
   const errorSignUp = errorTexts.filter((lang) => lang.value === language)[0];
+  const { signup, isPending } = useSignup();
   const signupText = languageTextSignup.filter(
     (lang) => lang.value === language
   )[0];
@@ -25,7 +31,11 @@ function SignUpForm({ language }: { language: string }) {
 
     email: z.string().nonempty(errorSignUp.text1).email(errorSignUp.text5),
 
-    password: z.string().nonempty(errorSignUp.text1).min(6, errorSignUp.text6),
+    password: z
+      .string()
+      .nonempty(errorSignUp.text1)
+      .min(6, errorSignUp.text6)
+      .regex(PASSWORD_REGEX, errorSignUp.text7),
   });
   type RegisterFormValues = z.infer<typeof registerSchema>;
 
@@ -42,8 +52,9 @@ function SignUpForm({ language }: { language: string }) {
 
   const passwordValue = watch("password");
   const onSubmit = (data: RegisterFormValues) => {
-    console.log(data);
-    console.log(errors);
+    const { fullName, username, email, password } = data;
+
+    signup({ fullName, username, email, password });
   };
 
   return (
@@ -59,7 +70,8 @@ function SignUpForm({ language }: { language: string }) {
           handleClick={() => {
             console.log("Button clicked");
           }}
-          className="flex items-center justify-center gap-2"
+          className="flex items-center justify-center gap-2 cursor-not-allowed"
+          disabled={true}
         >
           <span>
             <IoLogoFacebook className="w-[24px] h-[24px]" />
@@ -97,6 +109,7 @@ function SignUpForm({ language }: { language: string }) {
           classText={`mb-1 text-[12px] pb-2 pt-5 ${
             errors.password && "border border-red-500"
           }`}
+          idValue="password"
           passwordValue={passwordValue}
           register={register}
           labelText={signupText.text4}
@@ -104,7 +117,7 @@ function SignUpForm({ language }: { language: string }) {
         />
         <div>
           {errors.password && (
-            <p className="text-red-500 text-[12px] mb-3">
+            <p className="text-red-500 text-[12px] mb-3 max-w-[259px]">
               {errors.password.message}
             </p>
           )}
@@ -181,7 +194,7 @@ function SignUpForm({ language }: { language: string }) {
           } `}
           disabled={!isValid || isSubmitting}
         >
-          <span>{signupText.text14}</span>
+          {isPending ? <Spinner /> : <span>{signupText.text14}</span>}
         </Button>
       </div>
     </form>

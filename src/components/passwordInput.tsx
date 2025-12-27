@@ -8,12 +8,14 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   passwordValue?: string;
   labelText: string;
   register: any;
+  idValue: string;
 };
 const PasswordInput = ({
   classText,
   passwordValue,
   labelText,
   register,
+  idValue,
   ...props
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -29,10 +31,10 @@ const PasswordInput = ({
           classText
         )}
         type={showPassword ? "text" : "password"}
-        id="password"
+        id={idValue}
         {...props}
         ref={(e) => {
-          register("password").ref(e);
+          register(idValue).ref(e);
           passwordRef.current = e;
         }}
       />
