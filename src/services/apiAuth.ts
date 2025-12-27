@@ -75,3 +75,22 @@ export async function resetPassword({ email }: { email: string }) {
 
   return data;
 }
+export async function updateUser({ newPassword }: { newPassword: string }) {
+  // check is there is any active session after clicking the reset link
+  const { data: session } = await supabase.auth.getSession();
+  if (!session.session) return null;
+  // if there is an active session, update user
+  const { data, error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function logOut() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) throw new Error(error.message);
+}

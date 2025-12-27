@@ -8,6 +8,9 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../../../components/button";
+import useUpdateUser from "../../../hooks/useUpdateuser";
+
+import Spinner from "../../../components/Spinner";
 
 function NewPasswordForm({ language }: { language: string }) {
   const errorResetPassword = errorTexts.filter(
@@ -43,8 +46,11 @@ function NewPasswordForm({ language }: { language: string }) {
     mode: "onChange",
   });
 
+  const { update, isPending } = useUpdateUser();
   const onSubmit = (data: newPasswordFormValues) => {
-    console.log(data);
+    const { newPassword } = data;
+
+    update({ newPassword });
   };
 
   return (
@@ -107,7 +113,7 @@ function NewPasswordForm({ language }: { language: string }) {
           }`}
           disabled={isSubmitting || !isValid}
         >
-          {resetText.text5}
+          {isPending ? <Spinner /> : resetText.text5}
         </Button>
       </div>
     </form>
