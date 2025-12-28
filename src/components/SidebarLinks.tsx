@@ -1,0 +1,22 @@
+import { Link } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
+
+type SidebarLinksProps = {
+  children: React.ReactNode;
+  path: string;
+  text?: string;
+  className?: string;
+};
+
+const baseStyles =
+  "flex gap-4 p-[12px] hover:bg-[#25282C] rounded-lg transition-colors duration-300 w-full";
+
+function SidebarLinks({ children, path, text, className }: SidebarLinksProps) {
+  return (
+    <Link className={twMerge(baseStyles, className)} to={path}>
+      {children}
+      <p className="text-[white] font-semibold ">{text}</p>
+    </Link>
+  );
+}
+export default SidebarLinks;
