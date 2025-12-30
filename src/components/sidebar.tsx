@@ -4,9 +4,9 @@ import ProfilePic from "../../public/user-profile-pic.jpg";
 
 function Sidebar() {
   return (
-    <div className="bg-[#0c1014]  h-screen flex flex-col  py-3 px-3 w-[60px] justify-between overflow-hidden hover:w-[300px] transition-all duration-100  text-nowrap">
+    <div className="bg-[#0c1014] flex  px-3 text-nowrap  justify-around border-t-[0.1px] border-gray-800 h-[48px] md:flex-col md:w-[60px] md:justify-between md:h-screen md:text-nowrap md:hover:w-[250px] md:overflow-hidden md:transition-all duration-300 ">
       <Link
-        className="p-[12px] w-[48px] hover:bg-[#25282C] rounded-lg transition-colors duration-300"
+        className="p-[12px] w-[48px] hover:bg-[#25282C] rounded-lg transition-colors duration-300 hidden md:block"
         to="/"
       >
         <svg
@@ -21,7 +21,7 @@ function Sidebar() {
           <path d="M12 2.982c2.937 0 3.285.011 4.445.064a6.087 6.087 0 0 1 2.042.379 3.408 3.408 0 0 1 1.265.823 3.408 3.408 0 0 1 .823 1.265 6.087 6.087 0 0 1 .379 2.042c.053 1.16.064 1.508.064 4.445s-.011 3.285-.064 4.445a6.087 6.087 0 0 1-.379 2.042 3.643 3.643 0 0 1-2.088 2.088 6.087 6.087 0 0 1-2.042.379c-1.16.053-1.508.064-4.445.064s-3.285-.011-4.445-.064a6.087 6.087 0 0 1-2.043-.379 3.408 3.408 0 0 1-1.264-.823 3.408 3.408 0 0 1-.823-1.265 6.087 6.087 0 0 1-.379-2.042c-.053-1.16-.064-1.508-.064-4.445s.011-3.285.064-4.445a6.087 6.087 0 0 1 .379-2.042 3.408 3.408 0 0 1 .823-1.265 3.408 3.408 0 0 1 1.265-.823 6.087 6.087 0 0 1 2.042-.379c1.16-.053 1.508-.064 4.445-.064M12 1c-2.987 0-3.362.013-4.535.066a8.074 8.074 0 0 0-2.67.511 5.392 5.392 0 0 0-1.949 1.27 5.392 5.392 0 0 0-1.269 1.948 8.074 8.074 0 0 0-.51 2.67C1.012 8.638 1 9.013 1 12s.013 3.362.066 4.535a8.074 8.074 0 0 0 .511 2.67 5.392 5.392 0 0 0 1.27 1.949 5.392 5.392 0 0 0 1.948 1.269 8.074 8.074 0 0 0 2.67.51C8.638 22.988 9.013 23 12 23s3.362-.013 4.535-.066a8.074 8.074 0 0 0 2.67-.511 5.625 5.625 0 0 0 3.218-3.218 8.074 8.074 0 0 0 .51-2.67C22.988 15.362 23 14.987 23 12s-.013-3.362-.066-4.535a8.074 8.074 0 0 0-.511-2.67 5.392 5.392 0 0 0-1.27-1.949 5.392 5.392 0 0 0-1.948-1.269 8.074 8.074 0 0 0-2.67-.51C15.362 1.012 14.987 1 12 1Zm0 5.351A5.649 5.649 0 1 0 17.649 12 5.649 5.649 0 0 0 12 6.351Zm0 9.316A3.667 3.667 0 1 1 15.667 12 3.667 3.667 0 0 1 12 15.667Zm5.872-10.859a1.32 1.32 0 1 0 1.32 1.32 1.32 1.32 0 0 0-1.32-1.32Z"></path>
         </svg>
       </Link>
-      <SidebarLinks path="/" text="Home" className="w-fit">
+      <SidebarLinks path="/" text="Home">
         <div>
           <svg
             aria-label="Home"
@@ -69,7 +69,7 @@ function Sidebar() {
           </svg>
         </div>
       </SidebarLinks>
-      <SidebarLinks text="Explore" path="#">
+      <SidebarLinks text="Explore" path="#" className=" hidden md:flex ">
         <div>
           <svg
             aria-label="Explore"
@@ -120,7 +120,6 @@ function Sidebar() {
           </svg>
         </div>
       </SidebarLinks>
-
       <SidebarLinks text="Messages" path="#">
         <div>
           <svg
@@ -153,7 +152,7 @@ function Sidebar() {
           </svg>
         </div>
       </SidebarLinks>
-      <SidebarLinks text="Notifications" path="#">
+      <SidebarLinks text="Notifications" path="#" className="hidden md:flex">
         <div>
           <svg
             aria-label="Notifications"
@@ -168,7 +167,7 @@ function Sidebar() {
           </svg>
         </div>
       </SidebarLinks>
-      <SidebarLinks text="Create" path="#" className="w-fit">
+      <SidebarLinks text="Create" path="#" className="hidden md:flex">
         <div>
           <svg
             aria-label="New post"
@@ -183,6 +182,7 @@ function Sidebar() {
           </svg>
         </div>
       </SidebarLinks>
+
       <SidebarLinks text="Profile" path="#">
         <div className="w-[24px] h-[24px]">
           <img
@@ -192,7 +192,8 @@ function Sidebar() {
           />
         </div>
       </SidebarLinks>
-      <SidebarLinks text="More" path="#">
+
+      <SidebarLinks text="More" path="#" className="hidden md:flex">
         <div>
           <svg
             aria-label="Settings"
@@ -239,7 +240,7 @@ function Sidebar() {
           </svg>
         </div>
       </SidebarLinks>
-      <SidebarLinks text="Also from Meta" path="#">
+      <SidebarLinks text="Also from Meta" path="#" className="hidden md:flex ">
         <div>
           <svg
             aria-label="Also from Meta"

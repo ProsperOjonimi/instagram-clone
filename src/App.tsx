@@ -17,7 +17,7 @@ function App() {
   const { language } = useLanguage();
   return (
     <BrowserRouter>
-      <ReactQueryDevtools />
+      <ReactQueryDevtools initialIsOpen={false} />
       <Routes>
         <Route
           element={
