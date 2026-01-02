@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import SidebarLinks from "./SidebarLinks";
 import ProfilePic from "../../public/user-profile-pic.jpg";
+import { useModalContext } from "../context/modalContext";
 
 function Sidebar() {
+  const { setShowModal } = useModalContext();
   return (
     <div className="bg-[#0c1014] flex  px-3 text-nowrap  justify-around border-t-[0.1px] border-gray-800 h-[48px] md:flex-col md:w-[60px] md:justify-between md:h-screen md:text-nowrap md:hover:w-[250px] md:overflow-hidden md:transition-all duration-300 ">
       <Link
@@ -167,7 +169,12 @@ function Sidebar() {
           </svg>
         </div>
       </SidebarLinks>
-      <SidebarLinks text="Create" path="#" className="hidden md:flex">
+      <SidebarLinks
+        text="Create"
+        path="#"
+        className="hidden md:flex"
+        handleClick={() => setShowModal(true)}
+      >
         <div>
           <svg
             aria-label="New post"

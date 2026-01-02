@@ -1,12 +1,25 @@
+import { useEffect, useState } from "react";
 import type { Post } from "../types/postType";
 import { timeAgo } from "../utils/helpers/timeAgo";
+import { truncateCaption } from "../utils/helpers/truncateCaption";
 
 type PostProps = {
   post: Post;
 };
 
 function Posts({ post }: PostProps) {
+  const [showFullCaption, setShowFullCaption] = useState<boolean>(false);
   const timeOfPost = timeAgo(post.createdAt);
+  const fullCaption = post.caption;
+  const truncatedCaption = truncateCaption(fullCaption);
+  const finalCaption = showFullCaption ? fullCaption : truncatedCaption;
+
+  useEffect(
+    function () {
+      if (finalCaption === post.caption) setShowFullCaption(true);
+    },
+    [setShowFullCaption, finalCaption, post.caption]
+  );
   return (
     <div className="max-w-[470px] mb-6 px-5">
       <div className="flex justify-between mb-3 px-2">
@@ -14,6 +27,7 @@ function Posts({ post }: PostProps) {
           <img
             src={post.user.avatarUrl}
             alt="avatar of the creator"
+            loading="lazy"
             className="avatar-url rounded-full -mb-1"
           />
 
@@ -51,7 +65,12 @@ function Posts({ post }: PostProps) {
       </div>
       {/* Post image */}
       <div className="post-image-wrapper mb-3 border border-gray-600 rounded-md">
-        <img src={post.imageUrl} alt="Post Photo " className="rounded-md mb-" />
+        <img
+          src={post.imageUrl}
+          alt="Post Photo "
+          className="rounded-md mb-"
+          loading="lazy"
+        />
       </div>
       {/* Post info */}
       <div className="flex flex-col">
@@ -153,7 +172,19 @@ function Posts({ post }: PostProps) {
         <div className="mt-2">
           <p>
             <span className="font-semibold">{post.user.username}</span>{" "}
-            {post.caption}
+            <span>
+              {`${finalCaption}`}{" "}
+              {!showFullCaption ? (
+                <button
+                  className="text-[#A8A8A8] text-[14px]"
+                  onClick={() => setShowFullCaption(true)}
+                >
+                  more
+                </button>
+              ) : (
+                ""
+              )}
+            </span>
           </p>
         </div>
       </div>

@@ -43,7 +43,8 @@ export const mockPosts: Post[] = [
   },
   {
     id: "post_4",
-    caption: "Consistency beats motivation every single time.",
+    caption:
+      "Consistency beats motivation every single time. Motivation comes and goes, but showing up daily, even on hard days, is what truly builds discipline, growth, and long-term success.",
     imageUrl: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
     createdAt: "2025-01-09T06:00:00Z",
     user: {

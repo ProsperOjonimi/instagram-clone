@@ -11,7 +11,7 @@ function StoryItem({ story }: StoryItemProps) {
         <img
           src={story.user.avatarUrl}
           alt="Avatar of creator"
-          className="rounded-full w-[89px] h-[89px]"
+          className="rounded-full max-w-[89px] max-h-[89px]"
         />
       </div>
     </div>
