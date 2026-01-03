@@ -1,4 +1,4 @@
-// import type { User } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import supabase from "./supabase";
 
 type signupType = {
@@ -13,6 +13,8 @@ export async function signupUser({
   fullName,
   username,
 }: signupType) {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const defaultAvatar = `${supabaseUrl}/storage/v1/object/public/avatars/default-avatar-profile.jpg`;
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -20,6 +22,8 @@ export async function signupUser({
       data: {
         fullName,
         username,
+        avatar_url: defaultAvatar,
+        bio: "",
       },
     },
   });
@@ -76,21 +80,37 @@ export async function resetPassword({ email }: { email: string }) {
 
   return data;
 }
-// export async function createUser(data: User | null) {
-//   const { data: profileData, error: profileError } = await supabase
+export async function createUser(data: User | null) {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const defaultAvatar = `${supabaseUrl}/storage/v1/object/public/avatars/default-avatar-profile.jpg`;
+
+  const { data: profileData, error } = await supabase
+    .from("users")
+    .insert([
+      {
+        id: data?.id,
+        username: data?.user_metadata.username,
+        full_name: data?.user_metadata.fullName,
+        bio: "",
+        avatar_url: defaultAvatar,
+      },
+    ])
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  return profileData;
+}
+// export async function getExistingUser(user: any) {
+//   const { data: existingUser, error } = await supabase
 //     .from("users")
-//     .insert([
-//       {
-//         id: data?.id,
-//         username: data?.user_metadata.username,
-//         full_name: data?.user_metadata.fullName,
-//       },
-//     ])
-//     .select();
+//     .select("*")
+//     .eq("id", user?.id)
+//     .maybeSingle();
 
-//   if (profileError) throw new Error(profileError.message);
+//   if (error) throw new Error(error.message);
 
-//   return profileData;
+//   return existingUser;
 // }
 export async function updateUser({ newPassword }: { newPassword: string }) {
   // check is there is any active session after clicking the reset link

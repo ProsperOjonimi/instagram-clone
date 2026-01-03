@@ -21,6 +21,7 @@ function StepTwo({
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData<User>(["user"]);
   const username = user?.user_metadata.username;
+  const avatarURL = user?.user_metadata.avatar_url;
   console.log(username);
 
   function handleBackButtonClick() {
@@ -77,7 +78,13 @@ function StepTwo({
         <div className="flex-1 bg-[#212328] flex flex-col gap-2 pl-5 pt-4">
           <div className="flex gap-3 items-center mb-2">
             {/* image of user avatar */}
-            <div className="w-[28px] h-[28px] rounded-full bg-white"></div>
+
+            <img
+              src={avatarURL}
+              alt="avatar of user "
+              className=" w-[28px] h-[28px] rounded-full"
+            />
+
             <p className="text-[white] text-[14px]">{username}</p>
           </div>
           <textarea
