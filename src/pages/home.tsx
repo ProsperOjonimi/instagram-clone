@@ -1,5 +1,5 @@
-import Posts from "../components/Posts";
-import Stories from "../components/Stories";
+import Posts from "../features/post/Posts";
+import Stories from "../features/stories/Stories";
 
 import { mockPosts } from "../data/mockPosts";
 

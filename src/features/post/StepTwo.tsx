@@ -74,12 +74,16 @@ function StepTwo({
             className="h-[349px] w-full hidden md:block"
           />
         </div>
-        <div className="flex-1 bg-[#212328]">
-          <div>
-            <img />
-            <p>{username}</p>
+        <div className="flex-1 bg-[#212328] flex flex-col gap-2 pl-5 pt-4">
+          <div className="flex gap-3 items-center mb-2">
+            {/* image of user avatar */}
+            <div className="w-[28px] h-[28px] rounded-full bg-white"></div>
+            <p className="text-[white] text-[14px]">{username}</p>
           </div>
-          <textarea />
+          <textarea
+            className="bg-[#212328] text-white focus:outline-none h-52 pr-3"
+            maxLength={2200}
+          />
         </div>
       </div>
     </div>

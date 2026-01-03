@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import Button from "./button";
+import Button from "../../components/ui/button";
 
 function StepOne({ setImageFile }: { setImageFile: (x: File) => void }) {
   const inputRef = useRef<HTMLInputElement>(null);

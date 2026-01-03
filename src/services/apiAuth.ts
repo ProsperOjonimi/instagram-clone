@@ -1,3 +1,4 @@
+// import type { User } from "@supabase/supabase-js";
 import supabase from "./supabase";
 
 type signupType = {
@@ -75,6 +76,22 @@ export async function resetPassword({ email }: { email: string }) {
 
   return data;
 }
+// export async function createUser(data: User | null) {
+//   const { data: profileData, error: profileError } = await supabase
+//     .from("users")
+//     .insert([
+//       {
+//         id: data?.id,
+//         username: data?.user_metadata.username,
+//         full_name: data?.user_metadata.fullName,
+//       },
+//     ])
+//     .select();
+
+//   if (profileError) throw new Error(profileError.message);
+
+//   return profileData;
+// }
 export async function updateUser({ newPassword }: { newPassword: string }) {
   // check is there is any active session after clicking the reset link
   const { data: session } = await supabase.auth.getSession();

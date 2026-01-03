@@ -1,4 +1,4 @@
-import type { StoryItemType } from "../types/storiesType";
+import type { StoryItemType } from "../../types/storiesType";
 
 type StoryItemProps = {
   story: StoryItemType;

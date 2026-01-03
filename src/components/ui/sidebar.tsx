@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import SidebarLinks from "./SidebarLinks";
-import ProfilePic from "../../public/user-profile-pic.jpg";
-import { useModalContext } from "../context/modalContext";
+import ProfilePic from "../../../public/user-profile-pic.jpg";
+import { useModalContext } from "../../context/modalContext";
 
 function Sidebar() {
   const { setShowModal } = useModalContext();

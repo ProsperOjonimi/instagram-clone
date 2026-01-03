@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import StepOne from "./StepOne";
-import { useModalContext } from "../context/modalContext";
+import { useModalContext } from "../../context/modalContext";
 import StepTwo from "./StepTwo";
 
 function CreatePostModal() {

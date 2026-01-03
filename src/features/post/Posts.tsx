@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { Post } from "../types/postType";
-import { timeAgo } from "../utils/helpers/timeAgo";
-import { truncateCaption } from "../utils/helpers/truncateCaption";
+import type { Post } from "../../types/postType";
+import { timeAgo } from "../../utils/helpers/timeAgo";
+import { truncateCaption } from "../../utils/helpers/truncateCaption";
 
 type PostProps = {
   post: Post;

@@ -1,7 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
-import Sidebar from "./sidebar";
+import Sidebar from "./ui/sidebar";
 import { useModalContext } from "../context/modalContext";
-import CreatePostModal from "./CreatePostModal";
+import CreatePostModal from "../features/post/CreatePostModal";
 
 function AppLayout() {
   const { showModal, setShowModal } = useModalContext();

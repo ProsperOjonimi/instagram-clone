@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
-import Button from "../../../components/button";
-import Input from "../../../components/input";
+import Button from "../../../components/ui/button";
+import Input from "../../../components/ui/input";
 import { IoLogoFacebook } from "react-icons/io";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import PasswordInput from "../../../components/passwordInput";
+import PasswordInput from "../../../components/ui/passwordInput";
 import { errorTexts, languageTextSignup } from "../../../data/languageData";
 import { useSignup } from "../../../hooks/useSignup";
-import Spinner from "../../../components/Spinner";
+import Spinner from "../../../components/ui/Spinner";
 
 export const PASSWORD_REGEX =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!$@%])[A-Za-z\d!$@%]{6,}$/;
