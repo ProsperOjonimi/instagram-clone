@@ -1,15 +1,15 @@
 import { z } from "zod";
-import Button from "../../../components/button";
+import Button from "../../../components/ui/button";
 
 import { Link } from "react-router-dom";
-import Input from "../../../components/input";
+import Input from "../../../components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   errorTexts,
   languageTextForgotPassword,
 } from "../../../data/languageData";
-import Spinner from "../../../components/Spinner";
+import Spinner from "../../../components/ui/Spinner";
 import useResetPassword from "../../../hooks/useResetPassword";
 
 function ForgotPassword({ language }: { language: string }) {
