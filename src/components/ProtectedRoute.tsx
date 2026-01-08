@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
-import LoadingScreen from "./LoadingScreen";
+import LoadingScreen from "./ui/LoadingScreen";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();

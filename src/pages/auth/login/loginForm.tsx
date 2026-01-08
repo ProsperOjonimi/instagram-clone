@@ -1,15 +1,15 @@
-import Input from "../../../components/input";
+import Input from "../../../components/ui/input";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import PasswordInput from "../../../components/passwordInput";
-import Button from "../../../components/button";
+import PasswordInput from "../../../components/ui/passwordInput";
+import Button from "../../../components/ui/button";
 import { errorTexts, languageTextLogin } from "../../../data/languageData";
 import { useLogin } from "../../../hooks/useLogin";
-import Spinner from "../../../components/Spinner";
+import Spinner from "../../../components/ui/Spinner";
 
 function LoginForm({ language }: { language: string }) {
   const errorLogin = errorTexts.filter((lang) => lang.value === language)[0];

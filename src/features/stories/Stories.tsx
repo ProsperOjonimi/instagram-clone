@@ -1,4 +1,4 @@
-import { mockStories } from "../data/mockStories";
+import { mockStories } from "../../data/mockStories";
 import StoryItem from "./StoryItem";
 
 function Stories() {

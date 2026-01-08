@@ -1,4 +1,4 @@
-import PasswordInput from "../../../components/passwordInput";
+import PasswordInput from "../../../components/ui/passwordInput";
 import { z } from "zod";
 import { PASSWORD_REGEX } from "../signup/signUpForm";
 import {
@@ -7,10 +7,10 @@ import {
 } from "../../../data/languageData";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Button from "../../../components/button";
+import Button from "../../../components/ui/button";
 import useUpdateUser from "../../../hooks/useUpdateuser";
 
-import Spinner from "../../../components/Spinner";
+import Spinner from "../../../components/ui/Spinner";
 
 function NewPasswordForm({ language }: { language: string }) {
   const errorResetPassword = errorTexts.filter(
