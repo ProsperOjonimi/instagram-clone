@@ -1,5 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import type { User } from "@supabase/supabase-js";
+import useCreatePost from "../../hooks/useCreatePost";
+import { useState } from "react";
+import Spinner from "../../components/ui/Spinner";
 
 function StepTwo({
   setCurrentStep,
@@ -10,6 +13,7 @@ function StepTwo({
   setImageFile: (x: File | null) => void;
   imageFile: File | null;
 }) {
+  const [caption, setCaption] = useState<string>("");
   // Image preview
   let imagePreview;
 
@@ -22,12 +26,18 @@ function StepTwo({
   const user = queryClient.getQueryData<User>(["user"]);
   const username = user?.user_metadata.username;
   const avatarURL = user?.user_metadata.avatar_url;
+  const { create, isPending } = useCreatePost();
   console.log(username);
 
   function handleBackButtonClick() {
     setCurrentStep(1);
     setImageFile(null);
   }
+
+  function handleSharePost() {
+    create({ user, caption, imageFile });
+  }
+
   return (
     <div className="w-[350px] md:w-[753px] rounded-xl ">
       <div className="flex gap-14 md:gap-64 bg-[#0C1014] py-3 rounded-xl rounded-b-none border-b border-gray-500">
@@ -63,8 +73,12 @@ function StepTwo({
           </svg>
         </button>
         <p className="text-white font-semibold text-[16px]">Create new post</p>
-        <button className="text-[#708DF0] hover:underline hover:text-[#A3BCFF] transition-all duration-200">
-          Share
+        <button
+          className="text-[#708DF0] hover:underline hover:text-[#A3BCFF] transition-all duration-200"
+          onClick={() => handleSharePost()}
+          disabled={isPending}
+        >
+          {isPending ? <Spinner /> : " Share"}
         </button>
       </div>
       <div className="flex h-[349px]">
@@ -90,6 +104,8 @@ function StepTwo({
           <textarea
             className="bg-[#212328] text-white focus:outline-none h-52 pr-3"
             maxLength={2200}
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
           />
         </div>
       </div>

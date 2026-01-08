@@ -1,5 +1,4 @@
 import type { Post } from "../types/postType";
-import type { StoryItem } from "../types/storiesType";
 
 export const mockPosts: Post[] = [
   {
