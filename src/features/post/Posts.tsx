@@ -1,24 +1,71 @@
 import { useEffect, useState } from "react";
 import type { Post } from "../../types/postType";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { timeAgo } from "../../utils/helpers/timeAgo";
 import { truncateCaption } from "../../utils/helpers/truncateCaption";
+import { likePost, unlikePost } from "../../services/apiPosts";
+import { useQueryClient } from "@tanstack/react-query";
+import type { User } from "@supabase/supabase-js";
 
-// type PostProps = {
-//   post: Post;
-// };
+type PostProps = {
+  post: Post;
+};
 
-function Posts({ post }: any) {
+function Posts({ post }: PostProps) {
+  const queryClient = useQueryClient();
+
+  const user: User | undefined = queryClient.getQueryData(["user"]);
+
   const [showFullCaption, setShowFullCaption] = useState<boolean>(false);
   const timeOfPost = timeAgo(post.created_at);
   const fullCaption = post.caption;
   const truncatedCaption = truncateCaption(fullCaption);
   const finalCaption = showFullCaption ? fullCaption : truncatedCaption;
 
+  const [likesCount, setLikesCount] = useState<number>(post.likes.length);
+
+  // Like post
+
+  const likes = post.likes;
+  const isPostLikedByUser = likes.some(
+    (like: { id: string; user_id: string }) => like.user_id === user?.id,
+  );
+  const [isLike, setIsLike] = useState<boolean>(isPostLikedByUser);
+
+  async function handleAddLike() {
+    try {
+      console.log(post);
+      setIsLike((prev: boolean) => !prev);
+
+      setLikesCount((prev) => prev + 1);
+
+      await likePost(post.id, user?.id);
+
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    } catch {
+      setIsLike(false);
+      setLikesCount((prev) => prev - 1);
+    }
+  }
+
+  async function handleRemoveLike() {
+    try {
+      setIsLike((prev) => !prev);
+      setLikesCount((prev) => prev - 1);
+      await unlikePost(post.id, user?.id);
+
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    } catch {
+      setIsLike(true);
+      setLikesCount((prev) => prev + 1);
+    }
+  }
+
   useEffect(
     function () {
       if (finalCaption === post.caption) setShowFullCaption(true);
     },
-    [setShowFullCaption, finalCaption, post.caption]
+    [setShowFullCaption, finalCaption, post.caption],
   );
   return (
     <div className="max-w-[470px] mb-6 px-5">
@@ -64,7 +111,14 @@ function Posts({ post }: any) {
         </div>
       </div>
       {/* Post image */}
-      <div className="post-image-wrapper mb-3 border border-gray-600 rounded-md">
+      <div
+        className="post-image-wrapper mb-3 border border-gray-600 rounded-md"
+        onDoubleClick={() => {
+          if (!isLike) handleAddLike();
+
+          if (isLike && likesCount > 0) handleRemoveLike();
+        }}
+      >
         <img
           src={post.image_url}
           alt="Post Photo "
@@ -77,18 +131,21 @@ function Posts({ post }: any) {
         <div className="flex justify-between">
           <div className="flex gap-3">
             <div className="flex gap-2 items-center">
-              <svg
-                aria-label="Like"
-                fill="#FFFFFF"
-                height="24"
-                role="img"
-                viewBox="0 0 24 24"
-                width="24"
+              <button
+                onClick={() => {
+                  if (!isLike) handleAddLike();
+
+                  if (isLike && likesCount > 0) handleRemoveLike();
+                }}
               >
-                <title>Like</title>
-                <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"></path>
-              </svg>
-              <p className="text-[14px]">{post.likes.length}</p>
+                {isLike ? (
+                  <FaHeart className="text-[#FF3040] text-xl" size={24} />
+                ) : (
+                  <FaRegHeart size={24} />
+                )}
+              </button>
+
+              <p className="text-[14px]">{likesCount}</p>
             </div>
             {/*  */}
             <div className="flex gap-2 items-center">

@@ -1,6 +1,7 @@
-import type { User } from "@supabase/supabase-js";
 import supabase from "./supabase";
+import type { CreatePostVariables } from "../types/postType";
 
+// Upload Post Image
 export async function uploadImage(userId: string, file: File): Promise<string> {
   if (!(file instanceof File)) throw new Error("Invalid file object");
   if (!file.type.startsWith("image/")) throw new Error("File must be an image");
@@ -25,13 +26,7 @@ export async function uploadImage(userId: string, file: File): Promise<string> {
   return imageData.publicUrl;
 }
 
-type CreatePostVariables = {
-  user: User | undefined;
-  caption: string;
-
-  imageFile: File | null;
-};
-
+// Create Post
 export async function createPost({
   user,
   caption,
@@ -53,6 +48,7 @@ export async function createPost({
   }
 }
 
+// Fetch Posts
 export async function fetchPosts() {
   const { data: posts, error } = await supabase
     .from("posts")
@@ -90,4 +86,32 @@ export async function fetchPosts() {
   if (error) throw new Error(error.message);
 
   return posts;
+}
+
+// Like Post
+
+export async function likePost(postID, userID) {
+  const { data, error } = await supabase
+    .from("likes")
+    .insert([{ post_id: postID, user_id: userID }])
+    .select();
+
+  if (error) throw new Error("cannot fetch likes");
+
+  return data;
+}
+// unlike post
+
+export async function unlikePost(postID: string, userID: string | undefined) {
+  const { data, error } = await supabase
+    .from("likes")
+    .delete()
+    .eq("post_id", postID)
+    .eq("user_id", userID);
+
+  if (error) throw new Error(error.message);
+
+  console.log("unlikePost userID:", userID);
+
+  return data;
 }
