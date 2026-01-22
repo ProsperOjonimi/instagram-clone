@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import CloseModalButton from "../../components/ui/CloseModalButton";
 import type { Post } from "../../types/postType";
 import CommentInputField from "./CommentInputField";
@@ -10,14 +11,17 @@ type CommentsProps = {
 function Comments({ post, handleClose }: CommentsProps) {
   const postImage = post.image_url;
   const postComments = post.comments;
-  return (
-    <div className="flex">
+  const modalRoot = document.getElementById("root");
+
+  if (!modalRoot) return null;
+  return createPortal(
+    <div className="flex absolute top-10 left-44 comment-image-wrapper w-full z-50">
       <CloseModalButton handleClose={handleClose} />
-      <div>
-        <img src={postImage} alt={post.caption} />
+      <div className="w-full">
+        <img src={postImage} alt={post.caption} className="" />
       </div>
 
-      <div>
+      <div className="bg-[#212328] w-full">
         <div>
           {postComments.map((comment) => (
             <IndividualComment commentData={comment} />
@@ -29,7 +33,8 @@ function Comments({ post, handleClose }: CommentsProps) {
           <CommentInputField />
         </div>
       </div>
-    </div>
+    </div>,
+    modalRoot,
   );
 }
 

@@ -1,5 +1,5 @@
 function CommentInputField() {
-  return <input></input>;
+  return <input type="text" />;
 }
 
 export default CommentInputField;

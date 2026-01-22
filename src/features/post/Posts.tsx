@@ -51,6 +51,25 @@ function Posts({ post }: PostProps) {
 
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
 
+  // Prevent body from scrolling when the comment modal is open
+
+  const root = document.getElementById("root");
+
+  useEffect(() => {
+    if (!root) return;
+
+    console.log(root);
+    if (showCommentModal) {
+      root.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showCommentModal, root]);
+
   function handleClose() {
     setShowCommentModal((prev) => !prev);
   }
