@@ -7,8 +7,11 @@ function AppLayout() {
   const { showModal, setShowModal } = useModalContext();
   return (
     <>
-      <div className="flex flex-col bg-[#0c1014] h-screen relative md:flex-row">
-        <main className="flex justify-center items-center h-full md:order-2 min-w-[calc(100vw-60px)] overflow-y-scroll ">
+      <div className="flex flex-col bg-[#0c1014] h-screen relative md:flex-row overflow-hidden">
+        <main
+          className="flex justify-center items-center h-full md:order-2 min-w-[calc(100vw-60px)] overflow-y-scroll"
+          id="no-scroll"
+        >
           <Outlet />
         </main>
         <div className="fixed bottom-1 w-full h-[48px] md:static md:order-1 md:w-[60px]  md:h-screen bg-[#0c1014] z-50 ">

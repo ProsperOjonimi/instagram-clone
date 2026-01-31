@@ -76,10 +76,11 @@ export async function fetchPosts() {
     created_at,
     users (
       id,
-      username
+      username,
+      avatar_url
     )
   )
-  `
+  `,
     )
     .order("created_at", { ascending: false });
 
