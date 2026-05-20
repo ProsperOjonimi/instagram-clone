@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import SidebarLinks from "./SidebarLinks";
-import ProfilePic from "../../../public/user-profile-pic.jpg";
 import { useModalContext } from "../../context/modalContext";
+import { useQueryClient } from "@tanstack/react-query";
+import type { User } from "@supabase/supabase-js";
 
 function Sidebar() {
   const { setShowModal } = useModalContext();
+
+  const queryClient = useQueryClient();
+  const currentUser = queryClient.getQueryData<User>(["user"]);
+  const currentUserProfilePic = currentUser?.user_metadata.avatar_url;
   return (
     <div className="bg-[#0c1014] flex  px-3 text-nowrap  justify-around border-t-[0.1px] border-gray-800 h-[48px] md:flex-col md:w-[60px] md:justify-between md:h-screen md:text-nowrap md:hover:w-[250px] md:overflow-hidden md:transition-all duration-300 ">
       <Link
@@ -193,7 +198,7 @@ function Sidebar() {
       <SidebarLinks text="Profile" path="#">
         <div className="w-[24px] h-[24px]">
           <img
-            src={ProfilePic}
+            src={currentUserProfilePic}
             alt="user profile pic"
             className="min-w-[24px] h-full rounded-full"
           />

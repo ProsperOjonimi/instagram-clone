@@ -31,3 +31,6 @@
   width: 32px;
   height: 32px;
 }
+.modal-container {
+  background-color: red;
+}
