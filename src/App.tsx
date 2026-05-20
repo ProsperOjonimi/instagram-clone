@@ -9,7 +9,7 @@ import LoginForm from "./pages/auth/login/loginForm";
 import ForgotPassword from "./pages/auth/login/forgotPassword";
 import { useLanguage } from "./context/languageContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import NewPasswordForm from "./pages/auth/login/newPasswordForm";
 
@@ -17,7 +17,7 @@ function App() {
   const { language } = useLanguage();
   return (
     <BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <Routes>
         <Route
           element={

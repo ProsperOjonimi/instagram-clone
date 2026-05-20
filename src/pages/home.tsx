@@ -1,12 +1,10 @@
 import Posts from "../features/post/Posts";
 import Stories from "../features/stories/Stories";
-
-import { mockPosts } from "../data/mockPosts";
 import useFetchPosts from "../hooks/useFetchPosts";
+import type { Post } from "../types/postType";
 
 function Home() {
-  const { posts, isLoading, isError } = useFetchPosts();
-  console.log(posts);
+  const { posts } = useFetchPosts();
 
   return (
     <>
@@ -15,7 +13,7 @@ function Home() {
         <div className="flex flex-col gap-4 md:px-10">
           {posts ? (
             <div>
-              {posts.map((post) => (
+              {posts.map((post: Post) => (
                 <Posts post={post} key={post.id} />
               ))}
             </div>

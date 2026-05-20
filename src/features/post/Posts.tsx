@@ -6,6 +6,7 @@ import { truncateCaption } from "../../utils/helpers/truncateCaption";
 import { likePost, unlikePost } from "../../services/apiPosts";
 import { useQueryClient } from "@tanstack/react-query";
 import type { User } from "@supabase/supabase-js";
+import Comments from "../comments/comments";
 
 type PostProps = {
   post: Post;
@@ -48,6 +49,27 @@ function Posts({ post }: PostProps) {
     }
   }
 
+  const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
+
+  // Prevent body from scrolling when the comment modal is open
+
+  const root = document.getElementById("no-scroll");
+
+  useEffect(() => {
+    if (showCommentModal && root) {
+      root.style.overflow = "hidden";
+      console.log(document.body.style.overflow);
+    } else {
+      if (root) root.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showCommentModal, root]);
+  function handleClose() {
+    setShowCommentModal((prev) => !prev);
+  }
   async function handleRemoveLike() {
     try {
       setIsLike((prev) => !prev);
@@ -148,7 +170,10 @@ function Posts({ post }: PostProps) {
               <p className="text-[14px]">{likesCount}</p>
             </div>
             {/*  */}
-            <div className="flex gap-2 items-center">
+            <button
+              className="flex gap-2 items-center"
+              onClick={() => setShowCommentModal((prev) => !prev)}
+            >
               <svg
                 aria-label="Comment"
                 fill="currentColor"
@@ -167,7 +192,7 @@ function Posts({ post }: PostProps) {
                 ></path>
               </svg>
               <p className="text-[14px]">{post.comments.length}</p>
-            </div>
+            </button>
             {/*  */}
             <div className="flex">
               <svg
@@ -245,6 +270,11 @@ function Posts({ post }: PostProps) {
           </p>
         </div>
       </div>
+
+      {/* Comments modal */}
+      {showCommentModal ? (
+        <Comments post={post} handleClose={handleClose} />
+      ) : null}
     </div>
   );
 }

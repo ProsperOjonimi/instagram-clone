@@ -17,7 +17,7 @@ function SignUpForm({ language }: { language: string }) {
   const errorSignUp = errorTexts.filter((lang) => lang.value === language)[0];
   const { signup, isPending } = useSignup();
   const signupText = languageTextSignup.filter(
-    (lang) => lang.value === language
+    (lang) => lang.value === language,
   )[0];
 
   const registerSchema = z.object({

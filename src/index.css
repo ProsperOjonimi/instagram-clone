@@ -14,7 +14,23 @@
   object-fit: cover;
 }
 
+.comment-image-wrapper {
+  max-width: 1000px;
+  max-height: 500px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.comment-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .avatar-url {
   width: 32px;
   height: 32px;
+}
+.modal-container {
+  background-color: red;
 }

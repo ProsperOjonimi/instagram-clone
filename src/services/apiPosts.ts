@@ -76,21 +76,29 @@ export async function fetchPosts() {
     created_at,
     users (
       id,
-      username
+      username,
+      avatar_url
     )
   )
-  `
+  `,
     )
     .order("created_at", { ascending: false });
 
   if (error) throw new Error(error.message);
 
-  return posts;
+  return (posts as any[])?.map((post) => ({
+    ...post,
+    users: Array.isArray(post.users) ? post.users[0] : post.users,
+    comments: (post.comments as any[])?.map((comment: any) => ({
+      ...comment,
+      users: Array.isArray(comment.users) ? comment.users[0] : comment.users,
+    })),
+  })) as any;
 }
 
 // Like Post
 
-export async function likePost(postID, userID) {
+export async function likePost(postID: string, userID: string | undefined) {
   const { data, error } = await supabase
     .from("likes")
     .insert([{ post_id: postID, user_id: userID }])
@@ -112,6 +120,20 @@ export async function unlikePost(postID: string, userID: string | undefined) {
   if (error) throw new Error(error.message);
 
   console.log("unlikePost userID:", userID);
+
+  return data;
+}
+
+export async function commentPost(
+  postID: string,
+  userID: string | undefined,
+  content: string,
+) {
+  const { data, error } = await supabase
+    .from("comments")
+    .insert([{ post_id: postID, user_id: userID, content: content }])
+    .select();
+  if (error) throw new Error(error.message);
 
   return data;
 }
